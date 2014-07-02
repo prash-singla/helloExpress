@@ -1,60 +1,61 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('static-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var express = require('express')
+  , fs = require('fs')
+  , passport = require('passport');
+//var path = require('path');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+
+//Load configurations
+
+var env = process.env.NODE_ENV || 'development'
+  , config = require('./config/config')[env]
+  , mongoose = require('mongoose')
+
+//Bootstrap db connection
+//connect to mongoDB
+
+var connect = function() {
+  var options = {server:{socketOptions: {keepAlive: 1}}}
+  mongoose.connect(config.db, options)
+}
+connect();
+
+//Error Handler
+mongoose.connection.on('error',function(err){
+  console.log(err);
+});
+
+//Reconnect when closed
+mongoose.connection.on('disconnected',function(){
+  connect();
+});
+
+//Bootstrap models
+
+var models_path = __dirname + '/app/models'
+fs.readdirSync(models_path).forEach(function (file) {
+  if (~file.indexOf('.js')) require(models_path + '/' + file)
+})
+
+//bootstrap passport config
+//require('./config/passprt')(passport.config)
 
 var app = express();
+//express settings
+//require('./config/express')(app, config, passport)
+require('./config/express')(app, config)
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//Bootstrap routes
+//require('./config/routes')(app, passport)
+require('./config/routes')(app)
 
-app.use(favicon());
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(cookieParser());
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', routes);
-app.use('/users', users);
-
-/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-/// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
+var routes = require('./routes/index');
+var users = require('./routes/api/users');
 
 
+//Start the app by listening on <port>
+var port = process.env.PORT || 8080;
+app.listen(port);
+console.log('Magic starts here '+ port);
+
+// expose app
 module.exports = app;

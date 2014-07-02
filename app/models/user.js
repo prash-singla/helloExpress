@@ -1,7 +1,7 @@
 //User model
 
-var mongoose = require('mongoose'),
-  , Schema = mongoose.schema
+var mongoose = require('mongoose')
+  , Schema = mongoose.Schema
   , crypto = require('crypto')
   , oAuthTypes = ['github', 'twitter', 'facebook', 'google', 'linkedin']
 
@@ -60,6 +60,18 @@ UserSchema.path('email').validate(function(email,fn){
   }else fn(true)
 },'Email already exists')
 
+UserSchema.path('username').validate(function(username,fn){
+  var User = mongoose.model('User')
+  if(this.doesNotRequireValidation()) fn(true)
+
+  //check only it is a new user or username field is modified
+  if(this.isNew || this.isModified('username')){
+    User.find({username: username}).exec(function(err,users){
+      fn(!err && users.length ===0)
+    })
+  }else fn(true)
+},'Username already exists')
+
 UserSchema.path('username').validate(function(username){
   if(this.doesNotRequireValidation()) return true
   return username.length
@@ -68,8 +80,7 @@ UserSchema.path('username').validate(function(username){
 UserSchema.path('hashed_password').validate(function (hashed_password) {
   if (this.doesNotRequireValidation()) return true
   return hashed_password.length
-},
-
+},'Password cant be blank')
 
 //Pre Save hook
 
@@ -94,6 +105,7 @@ UserSchema.methods = {
    * @return {Boolean}
    * @api public
    */
+
   authenticate: function(plainText) {
     return this.encryptPassword(plainText)== this.hashed_password
   },
@@ -117,7 +129,6 @@ UserSchema.methods = {
    * @ api public
    */
 
-
   encryptPassword: function(password) {
     if(!password) return ''
     var encrypted
@@ -139,4 +150,4 @@ UserSchema.methods = {
 
 }
 
-mongoose.model('User',UserSchema)
+mongoose.model('User',UserSchema);

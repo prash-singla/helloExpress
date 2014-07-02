@@ -1,9 +1,15 @@
 {
   "name": "helloExpress",
+  "description": "A demo app illustrating the usage of express, mongoose, passportjs, jade and other modules in nodejs",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
+  "author": "Prashant <prashantsingla01@gmail.com> )",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/prash-singla/helloExpress.git"
+  },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "NODE_ENV=development ./node_modules/.bin/nodemon server.js"
   },
   "dependencies": {
     "express": "~4.2.0",
@@ -13,6 +19,31 @@
     "body-parser": "~1.0.0",
     "debug": "~0.7.4",
     "jade": "~1.3.0",
-    "less-middleware": "1.0.x"
+    "less-middleware": "~1.0.x",
+    "mongoose": "~3.8.12",
+    "connect-mongo": "~0.4.1",
+    "connect-flash": "~0.1.1",
+    "passport": "~0.2.0",
+    "passport-local": "~1.0.0",
+    "passport-facebook": "~1.0.3",
+    "passport-twitter": "~1.0.2",
+    "passport-github": "~0.1.5",
+    "passport-google-oauth": "~0.1.5",
+    "passport-linkedin": "~0.1.3",
+    "imager": "~0.2.6",
+    "winston": "~0.7.3",
+    "notifier": "~0.1.5",
+    "async": "~0.9.0",
+    "view-helpers": "~0.1.5",
+    "forever": "~0.11.1",
+    "method-override": "~2.0.2"
+  },
+  "devDependencies": {
+    "supertest": "~0.13.0",
+    "should": "~4.0.4",
+    "mocha": "~1.20.1",
+    "nodemon": "~1.2.1"
   }
 }
+
+
