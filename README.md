@@ -9,6 +9,7 @@ Getting Started
 =================
 1. Install mongodb.
 2. cd into project
-3. run node server.js
-4. start making call to api using some rest client(eg. chrome extensioni Advanced Rest client)
+3. run npm install
+4. run node server.js
+5. start making call to api using some rest client(eg. chrome extensioni Advanced Rest client)
  
