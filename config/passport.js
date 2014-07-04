@@ -2,13 +2,7 @@ var mongoose = require('mongoose')
   , LocalStrategy = require('passport-local').Strategy
   , User = mongoose.model('User');
 
-module.exports = function(app, passport) {
-
-  //initialize passport
-  app.use(passport.initialize());
-
-  //using persistent login sessions
-  app.use(passport.session());
+module.exports = function(passport) {
 
   //serialize sessions
   passport.serializeUser(function(user,done){

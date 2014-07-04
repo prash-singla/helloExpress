@@ -4,15 +4,20 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , crypto = require('crypto')
   , oAuthTypes = ['github', 'twitter', 'facebook', 'google', 'linkedin']
+  , config = require('../../config/config')
+  , token_secret = config.tkSecret
+  , Token = mongoose.model('Token')
 
 var UserSchema = new Schema({
-  name: {type:String, default: '', required:true, trim:true, index:true},
-  email: {type:String, default:'', required:true, trim:true, unique:true},
-  username:{type:String, default:'', unique:true, trim:true},
-  provider:{type:String, default:'', trim:true},
-  hashed_password:{type:String, default:'', required:true},
-  salt:{type:String, default:''} ,
-  authToken:{type:String,default:''},
+  name: {type: String, default: '', required:true, trim:true, index:true},
+  email: {type: String, default:'', required:true, trim:true, unique:true},
+  username:{type: String, default:'', unique:true, trim:true},
+  provider:{type: String, default:'', trim:true},
+  hashed_password:{type: String, default:'', required:true},
+  salt:{type: String, default:''} ,
+  authToken:{type: Object},
+  reset_token:{type: String},
+  reset_token_expires_millis: {type: Number},
   facebook: {},
   twitter: {},
   github: {},
@@ -134,6 +139,37 @@ UserSchema.methods = {
     return this.encryptPassword(plainText)== this.hashed_password
   },
 
+  /**
+   * generate token
+   */
+
+  encode: function(data) {
+    return jwt.encode(data, token_secret)
+  },
+
+  /**
+   * create user token
+   */
+  createUserToken: function(next) {
+    var token = new Token({token:this.encode(email)})
+    this.token = token
+    this.save(function(err,user){
+      if(err) next(err);
+      next(user.token.token);
+    })
+  },
+
+  /**
+   * invalidate user token
+   */
+
+  invalidateUserToken: function() {
+    this.token = null;
+    this.save(function(err,user) {
+      if(err) next(err);
+      next(user);
+    })
+  },
   /**
    * Make salt
    *

@@ -47,7 +47,7 @@ require('./config/express')(app, config)
 
 //configure passport
 //require('./config/passport')(passport, config)
-require('./config/passport')(app,passport)
+require('./config/passport')(passport)
 
 //Bootstrap routes
 require('./config/routes')(app, passport)
