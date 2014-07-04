@@ -9,6 +9,7 @@ var express = require('express')
 var env = process.env.NODE_ENV || 'development'
   , config = require('./config/config')[env]
   , mongoose = require('mongoose')
+  , passport = require('passport')
 
 //Bootstrap db connection
 //connect to mongoDB
@@ -44,12 +45,13 @@ var app = express();
 //require('./config/express')(app, config, passport)
 require('./config/express')(app, config)
 
-//Bootstrap routes
-//require('./config/routes')(app, passport)
-require('./config/routes')(app)
+//configure passport
+//require('./config/passport')(passport, config)
+require('./config/passport')(app,passport)
 
-var routes = require('./routes/index');
-var users = require('./routes/api/users');
+//Bootstrap routes
+require('./config/routes')(app, passport)
+
 
 
 //Start the app by listening on <port>

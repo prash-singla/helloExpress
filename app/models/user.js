@@ -6,18 +6,20 @@ var mongoose = require('mongoose')
   , oAuthTypes = ['github', 'twitter', 'facebook', 'google', 'linkedin']
 
 var UserSchema = new Schema({
-  name: {type:String,default: ''},
-  email: {type:String,default:''},
-  username:{type:String,default:''},
-  provider:{type:String,default:''},
-  hashed_password:{type:String,default:''},
-  salt:{type:String,default:''} ,
+  name: {type:String, default: '', required:true, trim:true, index:true},
+  email: {type:String, default:'', required:true, trim:true, unique:true},
+  username:{type:String, default:'', unique:true, trim:true},
+  provider:{type:String, default:'', trim:true},
+  hashed_password:{type:String, default:'', required:true},
+  salt:{type:String, default:''} ,
   authToken:{type:String,default:''},
   facebook: {},
   twitter: {},
   github: {},
   google: {},
-  linkedin: {}
+  linkedin: {},
+  created: {  type: Date,  "default": Date.now  },
+  updated: {  type: Date,  "default": Date.now  }
 });
 
 //virtuals
@@ -25,6 +27,11 @@ var UserSchema = new Schema({
 UserSchema
   .virtual('password')
   .set(function(password){
+   // var min_err = new Error('Password must contain at least 8 character.s');
+   // var max_err = new Error('Password can not have more than 16 characters.');
+   // if(password.lenght<8?) return next(min_err);
+   // if(password.length>16) return next(max_err);
+
     this._password = password
     this.salt = this.makeSalt()
     this.hashed_password = this.encryptPassword(password)
@@ -37,6 +44,13 @@ var validatePresenceOf = function(value){
   return value && value.length
 }
 
+var minLength = function(v) {
+  return v && v.length<8;
+};
+
+var maxLength = function(v) {
+  return v && v.length>16;
+};
 
 UserSchema.path('name').validate(function(name){
   if(this.doesNotRequireValidation()) return true
@@ -85,7 +99,17 @@ UserSchema.path('hashed_password').validate(function (hashed_password) {
 //Pre Save hook
 
 UserSchema.pre('save',function(next){
-  if(!this.isNew) return next()
+  if(!this.isNew) return next();
+
+  console.log('password of the object is '+this._password);
+  if(!this.doesNotRequireValidation()&&minLength(this._password))
+    {
+      next(new Error('Password must contain at least 8 characters'));
+    }
+  if(!this.doesNotRequireValidation()&&maxLength(this._password))
+    {
+      next(new Error('Password can not have more than 16 characters'));
+    }
 
   if(!validatePresenceOf(this.password)
      && !this.doesNotRequireValidation())

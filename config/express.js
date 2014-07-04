@@ -5,7 +5,8 @@ var express = require('express')
   , logger = require('morgan')
   , cookieParser = require('cookie-parser')
   , path = require('path')
-  , bodyParser = require('body-parser');
+  , bodyParser = require('body-parser')
+  , session = require('express-session');
 
 var env = process.env.NODE_ENV || 'development'
 
@@ -14,6 +15,7 @@ module.exports = function(app, config, passport) {
   app.set('showStackError', true);
 
   app.use(favicon());
+  app.use(session({secret: 'hello Express'}));
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded());

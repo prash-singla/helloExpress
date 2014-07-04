@@ -8,7 +8,8 @@ var mongoose = require('mongoose')
 exports.create = function(req,res) {
   var user = new User(req.body)
   user.save(function(err,user){
-    if(err) res.send(err);
+    console.log("loggin err "+err);
+    if(err) res.json(err);
     res.json(user);
   });
 }
@@ -29,9 +30,13 @@ exports.get = function(req,res) {
  */
 
 exports.update = function(req,res) {
-  User.update({_id:req.params.user_id}, {$set:req.body}, {safe:true, multi:false}, function(err,user){
+  User.findOne({_id:req.params.user_id}, function(err,user){
     if(err) res.send(err);
-    res.json(user);
+    user.set(req.body);
+    user.save(function(err, user) {
+      if(err) res.send(err);
+      res.json(user);
+    });
   })
 }
 
