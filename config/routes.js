@@ -4,6 +4,7 @@ var routes_path = '../routes/api'
 
 var users = require(routes_path+'/users')
   , routes = require('../routes/index')
+  , reset_pwd_router = require('../routes/reset_password')
   , signup = require(routes_path+'/signup')
   , mongoose = require('mongoose')
   , User = mongoose.model('User')
@@ -95,26 +96,5 @@ module.exports = function(app, passport, config) {
 
   //hande request for changing password
   //when user click on the reset password link
-  app.get('/reset/:reset_token/:email', function(req, res) {
-    var reset_token = req.params.reset_token
-      , email = req.params.email
-
-    if(!token) {
-      res.status(404);
-      res.send({message: 'Link is expired,Try again resetting.'})
-    }
-    User.findOne({reset_token: reset_token}, function(err, user) {
-      if(err) {
-        res.status(404)
-        res.send({error: 'User not found'})
-      }
-      var now = new Date();
-      if(now.getTime()<user.reset_token_expires_millis) {
-        res.status(200)
-        res.send({message:'Authorized'});
-      }
-    });
-
-
-  });
+  app.get('/reset/:reset_token/:email', reset_pwd_router);
 }
