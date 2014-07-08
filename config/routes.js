@@ -19,16 +19,20 @@ module.exports = function(app, passport, config) {
    */
 
   app.all('/api/*', function(req, res, next) {
-    req.token = req.headers.access_token? req.headers.access_token : null;
+    req.token = (req.body && req.body.access_token)||(req.headers.access_token? req.headers.access_token : null)
     if(req.token == null) {
       res.status(401);
       res.send({message:'Please Sign in.'})
     }
     next();
   });
-  app.all('/api/*',auth.verifyToken);
+  app.all('/api/*', auth.verifyToken);
   app.all('/session/logout',function(req, res, next) {
     req.token = req.headers.access_token? req.headers.access_token : null;
+    if(req.token == null) {
+      res.status(401);
+      res.send({message:'Please Sign in.'})
+    }
     next();
   });
   app.use('/', routes);
@@ -55,7 +59,7 @@ module.exports = function(app, passport, config) {
     else res.json({error: 'AuthError'});
   });
 
-  //handling requrest for logout
+  //handling request for logout
   app.get('/session/logout', function(req, res) {
     req.logout();
     if(req.token) {
@@ -74,5 +78,43 @@ module.exports = function(app, passport, config) {
     }
   });
 
-  //middleware for authentication
+  //handle request when user asks for reset password link
+  app.post('/forgot_password', function(req,res) {
+    User.genResetToken(req.body.email, function(err, user) {
+      if(err)
+        res.json({error: 'Issue finding user.'});
+      else {
+        var reset_token = user.reset_token
+        var resetUrl = 'http://localhost:8080/reset/'+token+'/'+user.email
+        //send mail
+        res.status(200)
+        res.send({message: 'Check your mail'});
+      }
+    });
+  });
+
+  //hande request for changing password
+  //when user click on the reset password link
+  app.get('/reset/:reset_token/:email', function(req, res) {
+    var reset_token = req.params.reset_token
+      , email = req.params.email
+
+    if(!token) {
+      res.status(404);
+      res.send({message: 'Link is expired,Try again resetting.'})
+    }
+    User.findOne({reset_token: reset_token}, function(err, user) {
+      if(err) {
+        res.status(404)
+        res.send({error: 'User not found'})
+      }
+      var now = new Date();
+      if(now.getTime()<user.reset_token_expires_millis) {
+        res.status(200)
+        res.send({message:'Authorized'});
+      }
+    });
+
+
+  });
 }
