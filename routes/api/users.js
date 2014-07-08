@@ -6,10 +6,8 @@ var router = express.Router();
 
 router.route('/')
 
-  //Getting all users if  url is /api
-  .get(users.getAll)
-  //Creating new user if url is /api
-  .post(users.create);
+  //Getting all users if  url is /api/users
+  .get(users.getAll);
 
 router.route('/:user_id')
 

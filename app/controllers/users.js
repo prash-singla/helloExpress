@@ -56,6 +56,7 @@ exports.delete = function(req,res) {
  */
 
 exports.getAll = function(req,res) {
+  console.log('getting all users');
   User.find(function(err,users){
     if(err) res.send(err);
     res.json(users);

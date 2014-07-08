@@ -2,11 +2,14 @@
 
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
+  , ObjectId = Schema.ObjectId
   , crypto = require('crypto')
   , oAuthTypes = ['github', 'twitter', 'facebook', 'google', 'linkedin']
-  , config = require('../../config/config')
+  , env = process.env.NODE_ENV || 'development'
+  , config = require('../../config/config')[env]
   , token_secret = config.tkSecret
   , Token = mongoose.model('Token')
+  , jwt = require('jwt-simple')
 
 var UserSchema = new Schema({
   name: {type: String, default: '', required:true, trim:true, index:true},
@@ -151,11 +154,12 @@ UserSchema.methods = {
    * create user token
    */
   createUserToken: function(next) {
-    var token = new Token({token:this.encode(email)})
-    this.token = token
-    this.save(function(err,user){
+    console.log('creating user token');
+    var token = new Token({token:this.encode(this.email)})
+    this.authToken = token;
+    this.save(function(err, user) {
       if(err) next(err);
-      next(user.token.token);
+      else next(false, user.authToken.token);
     })
   },
 
@@ -167,7 +171,7 @@ UserSchema.methods = {
     this.token = null;
     this.save(function(err,user) {
       if(err) next(err);
-      next(user);
+      next(false,'removed');
     })
   },
   /**
@@ -208,6 +212,38 @@ UserSchema.methods = {
     return ~oAuthTypes.indexOf(this.provider);
   }
 
+}
+
+UserSchema.statics = {
+
+  /**
+   * decode token to authenticate user
+   */
+
+  decode: function(data) {
+    return jwt.decode(data, token_secret)
+  },
+
+  /**
+   * Generate Reset Token which will be
+   * user to reset password.
+   */
+  genResetToken: function(email) {
+    User.findOne({email: email}, function(err,  user){
+      if(err) next(err);
+      else if (user) {
+        //Generate reset token and URL link also create expiry for reset token
+        user.reset_token = crypto.randomBytes(32).toString('hex');
+        var now = new Date();
+        var expires = new Date(now.getTime() + (config.resetTokenExpiresMinutes*60*1000 )).getTime();
+        user.reset_token_expires_millis = expires;
+        next(user);
+      }
+      else
+        //should send error code
+        next(new Error('Sorry,No user with that email found'),null);
+    });
+  },
 }
 
 mongoose.model('User',UserSchema);

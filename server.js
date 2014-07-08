@@ -33,9 +33,12 @@ mongoose.connection.on('disconnected',function(){
 //Bootstrap models
 
 var models_path = __dirname + '/app/models'
+console.log('bootstraping models....');
 fs.readdirSync(models_path).forEach(function (file) {
-  if (~file.indexOf('.js')) require(models_path + '/' + file)
-})
+  if (~file.indexOf('.js')) {
+    console.log('   '+models_path+'/'+file)
+    require(models_path + '/' + file)
+  } })
 
 //bootstrap passport config
 //require('./config/passprt')(passport.config)
@@ -43,15 +46,14 @@ fs.readdirSync(models_path).forEach(function (file) {
 var app = express();
 //express settings
 //require('./config/express')(app, config, passport)
-require('./config/express')(app, config)
+require('./config/express')(app, config, passport)
 
 //configure passport
 //require('./config/passport')(passport, config)
 require('./config/passport')(passport)
 
 //Bootstrap routes
-require('./config/routes')(app, passport)
-
+require('./config/routes')(app, passport, config)
 
 
 //Start the app by listening on <port>
