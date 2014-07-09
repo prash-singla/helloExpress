@@ -46,6 +46,10 @@ module.exports = function(app, passport, config) {
   //and then using 'users' which is express.router object
   app.use('/api/users', users);
 
+  //hande request for changing password
+  //when user click on the reset password link
+  app.use('/reset', reset_pwd_router);
+
   //handling request for signin using passportjs
   app.post('/session/signin', passport.authenticate('local',{session: false}), function(req, res) {
     if(req.user) {
@@ -86,15 +90,12 @@ module.exports = function(app, passport, config) {
         res.json({error: 'Issue finding user.'});
       else {
         var reset_token = user.reset_token
-        var resetUrl = 'http://localhost:8080/reset/'+token+'/'+user.email
-        //send mail
+        var resetUrl = 'http://localhost:8080/reset/'+reset_token+'/'+user.email
+        //TODO send mail
         res.status(200)
-        res.send({message: 'Check your mail'});
+        res.send({message: 'Check your mail', link: resetUrl});
       }
     });
   });
 
-  //hande request for changing password
-  //when user click on the reset password link
-  app.get('/reset/:reset_token/:email', reset_pwd_router);
 }

@@ -4,10 +4,14 @@ var mongoose = require('mongoose')
 exports.verify_reset_url = function(req, res) {
   var reset_token = req.params.reset_token
     , email = req.params.email
-  User.findOne({reset_token: reset_token}, function(err, user) {
+  User.findOne({reset_token: reset_token, email: email}, function(err, user) {
     if(err) {
       res.status(404)
       res.send({message: 'Issue finding user'})
+    }
+    if(!user) {
+      res.status(404)
+      res.json({error: 'Unknown user'})
     }
     var now = new Date()
     if(now.getTime()<user.reset_token_expires_millis) {
@@ -37,7 +41,7 @@ exports.reset_password = function(req, res) {
         res.send({error: 'Unknown user email'+email})
       }
       else if(user) {
-        user.setPassword(password, function(err, user) {
+        user.setPassword(password, function(err) {
           if(err) {
             res.json({error: 'Issue while setting password.'})
           }

@@ -210,8 +210,21 @@ UserSchema.methods = {
 
   doesNotRequireValidation: function() {
     return ~oAuthTypes.indexOf(this.provider);
-  }
+  },
 
+  /*
+   * setting the password
+   * with encryption
+   */
+  setPassword: function(password, next) {
+    try{
+      this.salt = this.makeSalt();
+      this.hashed_password = this.encryptPassword(password);
+      next(false);
+    }catch(err){
+      next(err);
+    }
+  }
 }
 
 UserSchema.statics = {
@@ -228,8 +241,8 @@ UserSchema.statics = {
    * Generate Reset Token which will be
    * user to reset password.
    */
-  genResetToken: function(email) {
-    User.findOne({email: email}, function(err,  user){
+  genResetToken: function(email, next) {
+    this.findOne({email: email}, function(err,  user){
       if(err) next(err);
       else if (user) {
         //Generate reset token and URL link also create expiry for reset token
@@ -237,7 +250,13 @@ UserSchema.statics = {
         var now = new Date();
         var expires = new Date(now.getTime() + (config.resetTokenExpiresMinutes*60*1000 )).getTime();
         user.reset_token_expires_millis = expires;
-        next(user);
+        user.save(function(err, user) {
+          if(err) {
+            //TODO send status code
+            res.json({error: err.mesage})
+          }
+          else next(false,user);
+        })
       }
       else
         //should send error code
