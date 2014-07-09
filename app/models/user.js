@@ -14,6 +14,12 @@ var mongoose = require('mongoose')
 var UserSchema = new Schema({
   name: {type: String, default: '', required:true, trim:true, index:true},
   email: {type: String, default:'', required:true, trim:true, unique:true},
+  events_posted: [{type: ObjectId, ref: 'Event'}],
+  events_attending: [{type: ObjectId, ref: 'Event'}],
+  req_events: [{
+    created_at: {type: Date, default: Date.now},
+    event: {type: ObjectId, ref: 'Event'}
+  }],
   username:{type: String, default:'', unique:true, trim:true},
   provider:{type: String, default:'', trim:true},
   hashed_password:{type: String, default:'', required:true},

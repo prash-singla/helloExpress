@@ -33,6 +33,7 @@ exports.update = function(req,res) {
   User.findOne({_id:req.params.user_id}, function(err,user){
     if(err) res.send(err);
     user.set(req.body);
+    user.updated = Date.now()
     user.save(function(err, user) {
       if(err) res.send(err);
       res.json(user);
