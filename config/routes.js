@@ -3,9 +3,10 @@ var async = require('async')
 var routes_path = '../routes/api'
 
 var users = require(routes_path+'/users')
-  , routes = require('../routes/index')
-  , reset_pwd_router = require('../routes/reset_password')
+  , events = require(routes_path+'/events')
   , signup = require(routes_path+'/signup')
+  , routes = require('../routes/index')
+  , reset_pwd_router = require('../routes/reset_password')  
   , mongoose = require('mongoose')
   , User = mongoose.model('User')
   , Token = mongoose.model('Token')
@@ -25,6 +26,7 @@ module.exports = function(app, passport, config) {
       res.status(401);
       res.send({message:'Please Sign in.'})
     }
+    console.log("token verified");
     next();
   });
   app.all('/api/*', auth.verifyToken);
@@ -41,11 +43,16 @@ module.exports = function(app, passport, config) {
   //passing req for signup to 'users ' router
   app.use('/signup',signup);
 
-  //all requests for crud operation will come through this url
-  //using 'auth' function as middleware for authentication
-  //and then using 'users' which is express.router object
+  /**all requests for crud operation will come through this url
+   *using 'auth' function as middleware for authentication
+   *and then using 'users' which is express.router object
+   */
   app.use('/api/users', users);
 
+  /**
+   * request for events
+   */
+  app.use('/api/events', events);
   //hande request for changing password
   //when user click on the reset password link
   app.use('/reset', reset_pwd_router);
@@ -56,7 +63,7 @@ module.exports = function(app, passport, config) {
       var user = User.findOne({email: req.user.email}, function(err, user) {
         if(err) next(err);
         user.createUserToken(function(err, authToken) {
-          if(err) res.json({error: err.message });
+          if(err) res.json(err);
           else res.json({token: authToken})
         });
       });

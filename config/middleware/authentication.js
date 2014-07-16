@@ -11,7 +11,7 @@ exports.verifyToken = function(req, res, next) {
     try{
        decoded = User.decode(incomingToken)
     }catch(err) {
-      res.end({message:err.message});
+      res.json(err);
     }
     //Looking up in db & if that email exist its a real user
     if(decoded) {
@@ -23,6 +23,7 @@ exports.verifyToken = function(req, res, next) {
             res.status(401);
             res.json({error: 'Session Expired you need to log in again.'});
           }
+          req.user = user;
           next();
         }
       });

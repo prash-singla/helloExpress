@@ -12,14 +12,33 @@ var EventSchema = new Schema({
     cdnUri: String,
     files: []
   },
-  reqs_to_join: [{
-    recieved_at: {type: Date, default: Date.now},
-    user: {type: ObjectId, ref: 'User'}
+  requests: [{
+    type: ObjectId,
+    ref: 'ReqsEvent'
   }],
-  confirmed: [{type: ObjectId, ref: 'User'}],
   invitees: [{type: ObjectId, ref: 'User'}],
   created_at: {type: Date, default: Date.now},
   updated_at: {type: Date, default: Date.now}
-})
+},{strict: true})
 
+EventSchema.methods = {
+   /*
+    * get all reqs for an event
+    */
+   getReqs: function(next) {
+
+   }
+}
+
+EventSchema.statics = {
+
+  /*
+   * add req to event
+   */
+  addReq: function(event, event_req, next) {
+    Event.update({_id: event.id},{$push: {requests: event_req}},{safe: true, upsert: true}, function(err, event) {
+      next(err, event);
+    })
+  }
+}
 mongoose.model('Event', EventSchema);

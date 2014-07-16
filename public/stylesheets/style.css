@@ -1,0 +1,9 @@
+.hESearchBox{
+  width: 100% !important;
+  padding-right: 0px;
+  border-radius: 0px;
+
+}
+.btn-zero-radius {
+  border-radius: 0px;
+}

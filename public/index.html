@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" ng-app="helloExpress">
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+
+  <title>HelloExpress</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheets/style.css"> 
+
+  <!-- JS -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/collapse.min.js"></script>
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.18/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.18/angular-route.min.js"></script>
+  
+</head>
+<body>
+  <!-- Header -->
+  <ng-include src="'js/angular/templates/header.html'"></ng-include>
+
+  <!-- ANGULAR DYNAMIC CONTENT -->
+  <div ng-view></div>
+
+  <script type="text/javascript" src="js/angular/app.js"></script> 
+
+  <!-- ANGULAR CUSTOM -->
+  <script src="js/angular/services/sessionService.js"></script>
+  <script src="js/angular/services/appService.js"></script>
+  <script src="js/angular/services/eventService.js"></script>
+  <script src="js/angular/services/usersService.js"></script>
+  <script src="js/angular/controllers/login.js"></script>
+</body>
+</html>

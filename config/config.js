@@ -14,6 +14,7 @@ parseApiKey: 'PARSE_MASTER_KEY'
     development: {
       ttl:3600000,
       tkSecret: "@pp_$ecret",
+      timeFormat: "YYY-MM-DD HH:mm Z",
       resetTokenExpiresMinutes: 30,
       db: 'mongodb://localhost/helloExpress_dev',
       root: rootPath,

@@ -17,8 +17,7 @@ var UserSchema = new Schema({
   events_posted: [{type: ObjectId, ref: 'Event'}],
   events_attending: [{type: ObjectId, ref: 'Event'}],
   req_events: [{
-    created_at: {type: Date, default: Date.now},
-    event: {type: ObjectId, ref: 'Event'}
+    type: ObjectId,ref: 'ReqsEvent'
   }],
   username:{type: String, default:'', unique:true, trim:true},
   provider:{type: String, default:'', trim:true},

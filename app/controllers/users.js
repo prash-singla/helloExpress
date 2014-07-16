@@ -20,7 +20,7 @@ exports.create = function(req,res) {
 
 exports.get = function(req,res) {
   User.findById(req.params.user_id,function(err, user){
-    if(err) res.send(err);
+    if(err) res.send({message: err.message, name: err})
     res.json(user);
   });
 }
