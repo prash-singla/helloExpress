@@ -78,6 +78,12 @@ exports.update = function(req, res) {
 
 //get All
 exports.getAll = function(req, res) {
+  Event.find()
+  .populate('where')
+  .exec(function(err, events) {
+    if(err) res.json(err);
+    res.json(events);
+  })
 }
 
 //delete event req has id
