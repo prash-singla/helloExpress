@@ -1,6 +1,16 @@
 var mongoose = require('mongoose')
   , User = mongoose.model('User')
 
+exports.emailExists = function(req, res) {
+  var email = req.params.email || null
+  User.findOne({email: email}, function(err, user) {
+    if(err) return res.json(err);
+    if(!user) {
+      return res.json({message:'not found'})
+    }
+    res.json({message: 'found'})
+  })
+}
 exports.verify_reset_url = function(req, res) {
   var reset_token = req.params.reset_token
     , email = req.params.email

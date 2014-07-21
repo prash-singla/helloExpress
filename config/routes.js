@@ -5,6 +5,7 @@ var routes_path = '../routes/api'
 var users = require(routes_path+'/users')
   , matches = require(routes_path+'/matches')
   , signup = require(routes_path+'/signup')
+  , emailCheck = require('../routes/emailcheck')
   , routes = require('../routes/index')
   , reset_pwd_router = require('../routes/reset_password')
   , mongoose = require('mongoose')
@@ -38,11 +39,15 @@ module.exports = function(app, passport, config) {
     }
     next();
   });
+
+
   app.use('/', routes);
 
   //passing req for signup to 'users ' router
   app.use('/signup',signup);
 
+  //req to check whether email exists or not
+  app.use('/emailcheck', emailCheck);
   /**all requests for crud operation will come through this url
    *using 'auth' function as middleware for authentication
    *and then using 'users' which is express.router object
