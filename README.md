@@ -1,8 +1,8 @@
 helloExpress
 ============
-MEN
+MEAN Stack
 
-A demo appication to demonstrate use of nodejs, express and mongoDB.
+A demo application to demonstrate use of nodejs, express, Angular js and mongoDB.
 Building backend with node which will serve as api.
 
 Getting Started
@@ -11,5 +11,4 @@ Getting Started
 2. cd into project
 3. run npm install
 4. run node server.js
-5. start making call to api using some rest client(eg. chrome extensioni Advanced Rest client)
  
