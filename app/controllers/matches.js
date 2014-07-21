@@ -18,7 +18,10 @@ exports.create = function(req, res) {
   where.save(function(err, where) {
     if(err) return res.json(err);
     console.log('where successfully saved');
-    var match = new Match(req_match)
+    var match = new Match({
+      'title':req_match.title,
+      'description': req_match.description
+    });
     match.where = where._id
     var when = (new Date(req_match.when))
     match.when = when
@@ -29,16 +32,20 @@ exports.create = function(req, res) {
       var user = new User({'email': req_match.email})
       User.createUnactiveUsr(user, function(err, user) {
         if(err) return res.json(err);
-        console.log('unactivuser created successfully with email -'+user.email)
+        console.log('unactive user created successfully with email -'+user.email)
         match.posted_by = user._id
-        console.log('match where id '+match.where)
+        console.log('match where id '+match)
         Venue.findOne({_id: match.where},function(err, venue) {
           if(err) return console.log('got err in finding '+err);
-          console.log('venu found is -\n'+venue);
+          console.log('venue found is -\n'+venue);
 
         })
         match.save(function(err, match) {
-          if(err) return res.json(err);
+          if(err) {
+            user.remove();
+            return res.json(err);
+          }
+          res.statusCode = 201;
           res.json(match);
         })
       })
