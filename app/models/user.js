@@ -60,6 +60,9 @@ var UserSchema = new Schema({
   github: {},
   google: {},
   linkedin: {},
+  last_login_at: {
+    type: Date,
+  },
   created_at: {
     type: Date,
     default: Date.now,
@@ -197,7 +200,9 @@ UserSchema.methods = {
    */
   createUserToken: function(next) {
     console.log('creating user token');
-    var token = new Token({token:this.encode(this.email)})
+    this.last_login_at = new Date();
+    var token_salt = Math.round((this.last_login_at.valueOf() * Math.random()))+'';
+    var token = new Token({token:this.encode(this.email +token_salt )})
     this.authToken = token;
     this.save(function(err, user) {
       if(err) next(err);

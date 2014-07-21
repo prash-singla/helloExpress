@@ -1,4 +1,4 @@
-helloExpress.service('SessionService',['$http', function($http) {
+helloExpress.service('SessionService',['$http', '$window', function($http, $window) {
   var urlBase = 'session'
   this.create = function(credentials) {
     console.log(credentials)
@@ -9,6 +9,13 @@ helloExpress.service('SessionService',['$http', function($http) {
     });
   }
   this.delete = function(access_token) {
-    return $http.delete(urlBase+'/logout',{headers: {'access_token': access_token}});
+    return $http.delete(urlBase+'/logout')
+    .success(function(data, status) {
+      $window.sessionStorage.token = null;
+      $location.url('/');
+    })
+    .error(function(err, status) {
+      console.log(err);
+    });
   }
 }])

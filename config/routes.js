@@ -77,13 +77,13 @@ module.exports = function(app, passport, config) {
   });
 
   //handling request for logout
-  app.get('/session/logout', function(req, res) {
+  app.delete('/session/logout', function(req, res) {
     req.logout();
     if(req.token) {
       var decoded = User.decode(req.token, config.tkSecret)
-      if(decoded) {
-        User.findOne({email: decoded}, function(err, user) {
-          if(err) res.send({error: 'Invalid token, Sign in again'});
+      if(decoded) {        
+        User.findOne({email: getEmail(decoded)}, function(err, user) {
+          if(err) return res.send({error: 'Invalid token, Sign in again'});
           user.authToken = null
           user.save(function(err, user) {
             if(err){message:'Issue in logging out'}
@@ -110,4 +110,11 @@ module.exports = function(app, passport, config) {
     });
   });
 
+}
+
+function getEmail(str) {
+  var pattern = /\d+$/
+  var match = str.match(pattern);
+  var index = str.indexOf(match[0]);
+  return str.substr(0,index);
 }

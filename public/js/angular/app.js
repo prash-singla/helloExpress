@@ -6,7 +6,7 @@ var helloExpress = angular.module('helloExpress',['ngRoute'])
     $routeProvider
       .when('/matches',{
         templateUrl: 'js/angular/templates/matches/matches.html',
-        controller: 'MainCtrl'
+        controller: 'MatchesCtrl'
       })
       .when('/matches/create',{
        templateUrl: 'js/angular/templates/matches/create.html',
@@ -17,7 +17,13 @@ var helloExpress = angular.module('helloExpress',['ngRoute'])
         controller: 'LoginCtrl'
       })
       .when('/home',{templateUrl: 'js/angular/templates/home.html'})
-      .when('/signup',{templateUrl: 'js/angular/templates/signup.html'})
-      .when('/',{templateUrl: 'js/angular/templates/main.html'})
+      .when('/signup',{
+        templateUrl: 'js/angular/templates/signup.html',
+        controller: 'SignupCtrl'
+      })
+      .when('/',{
+        templateUrl: 'js/angular/templates/main.html',
+        controller: 'MainCtrl'
+      })
       .otherwise({rediredtTo: '/'});
   }]);
