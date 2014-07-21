@@ -4,9 +4,13 @@ var helloExpress = angular.module('helloExpress',['ngRoute'])
   .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
 
     $routeProvider
-      .when('/events',{
-        templateUrl: 'js/angular/templates/events.html',
+      .when('/matches',{
+        templateUrl: 'js/angular/templates/matches/matches.html',
         controller: 'MainCtrl'
+      })
+      .when('/matches/create',{
+       templateUrl: 'js/angular/templates/matches/create.html',
+       controller: 'MatchCtrl'
       })
       .when('/signin',{
         templateUrl: 'js/angular/templates/signin.html',

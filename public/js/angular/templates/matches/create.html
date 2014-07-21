@@ -1,0 +1,38 @@
+<div class="container-fluid col-md-3 hEBox hEBox-match">
+  <div class="row" style='padding: 20px 35px 20px 35px;'>
+    <form action="" method="POST" role="form">
+      <legend>Create Match</legend>
+
+      <div class="form-group">
+        <input ng-model='match.title' type="text" class="form-control" id="title" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <textarea ng-model='match.description' class="form-control" id="description" placeholder="Description" />
+      </div>
+      <div class="form-group">
+        <input ng-model='match.where.place' type="place" class="form-control" id="place" placeholder="Place">
+      </div>
+      <div class="form-group">
+        <input ng-model='match.where.city' type="city" class="form-control" id="city" placeholder="City">
+      </div>
+      <div class="form-group">
+        <input ng-model='match.where.state' type="state" class="form-control" id="state" placeholder="State">
+      </div>
+      <div class="form-group">
+        <input ng-model='match.where.country' type="country" class="form-control" id="country" placeholder="Country">
+      </div>
+      <div class="form-group">
+        <input ng-model="match.when" type="text" class="form-control" id="when" placeholder="Date and Time of Match">
+      </div>
+      <div class="form-group">
+        <input ng-model='match.email' type="email" class="form-control" id="email" placeholder="Email">
+      </div>
+      <div class="form-froup">
+        <button type="button" ng-click="create()" class="btn btn-success form-control">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+      </div>
+      <a><p class="cancel">Cancel</p></a>
+    </form>
+  </div>
+</div>

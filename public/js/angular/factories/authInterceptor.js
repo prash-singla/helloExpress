@@ -1,4 +1,4 @@
-helloExpress.factory('authInterceptor',function($rootScope, $q, $window) {
+helloExpress.factory('authInterceptor',function($rootScope, $q, $window, $location) {
   return {
     request: function(config) {
       config.headers = config.headers || {};
@@ -11,6 +11,7 @@ helloExpress.factory('authInterceptor',function($rootScope, $q, $window) {
     response: function(response) {
       if(response.status===401) {
         //TODO handle unauthorized case
+        $window.sessionStorage.token = null;
       }
       return response || $q.when(response);
     }

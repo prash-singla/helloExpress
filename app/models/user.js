@@ -10,29 +10,64 @@ var mongoose = require('mongoose')
   , token_secret = config.tkSecret
   , Token = mongoose.model('Token')
   , jwt = require('jwt-simple')
+  , emailRegexp = /.+\@.+\..+/;
+
 
 var UserSchema = new Schema({
-  name: {type: String, default: '', required:true, trim:true, index:true},
-  email: {type: String, default:'', required:true, trim:true, unique:true},
-  events_posted: [{type: ObjectId, ref: 'Event'}],
-  events_attending: [{type: ObjectId, ref: 'Event'}],
-  req_events: [{
-    type: ObjectId,ref: 'ReqsEvent'
+  name: {
+    type: String, default: '',
+    trim:true,
+    index:true
+  },
+  email: {
+    type: String,
+    default:'',
+    required:true,
+    trim:true,
+    unique:true,
+    match: emailRegexp
+  },
+  gender: {
+    type: String,
+    uppercase: true,
+    'enum': ['M','F']
+  },
+  birthday: {
+    type: Date,
+  },
+  matches_posted: [{type: ObjectId, ref: 'Match'}],
+  matches_playing: [{type: ObjectId, ref: 'Match'}],
+  req_matches: [{
+    type: ObjectId,ref: 'ReqsMatch'
   }],
-  username:{type: String, default:'', unique:true, trim:true},
+  //username:{type: String, unique:true, trim:true},
   provider:{type: String, default:'', trim:true},
-  hashed_password:{type: String, default:'', required:true},
+  //TODO make required: true and gen random password in case
+  hashed_password:{type: String},
   salt:{type: String, default:''} ,
   authToken:{type: Object},
   reset_token:{type: String},
+  status: {
+    type: String,
+    lowercase: true,
+    default: 'active',
+    required: true,
+    enum: ['active', 'unactive']
+  },
   reset_token_expires_millis: {type: Number},
   facebook: {},
   twitter: {},
   github: {},
   google: {},
   linkedin: {},
-  created: {  type: Date,  "default": Date.now  },
-  updated: {  type: Date,  "default": Date.now  }
+  created_at: {
+    type: Date,
+    default: Date.now,
+    set: function(val) {
+      return undefinded;
+    }
+  },
+  updated_at: {  type: Date, default: Date.now  }
 });
 
 //virtuals
@@ -66,7 +101,7 @@ var maxLength = function(v) {
 };
 
 UserSchema.path('name').validate(function(name){
-  if(this.doesNotRequireValidation()) return true
+  if(this.doesNotRequireValidation() || this.status==='unactive') return true
   return name.length
 },'Name can\'t be blank')
 
@@ -86,45 +121,47 @@ UserSchema.path('email').validate(function(email,fn){
     })
   }else fn(true)
 },'Email already exists')
+/*
+  UserSchema.path('username').validate(function(username,fn){
+    var User = mongoose.model('User')
+    if(this.doesNotRequireValidation()) fn(true)
 
-UserSchema.path('username').validate(function(username,fn){
-  var User = mongoose.model('User')
-  if(this.doesNotRequireValidation()) fn(true)
+    //check only it is a new user or username field is modified
+    if(this.isNew || this.isModified('username')){
+      User.find({username: username}).exec(function(err,users){
+        fn(!err && users.length ===0)
+      })
+    }else fn(true)
+  },'Username already exists')
 
-  //check only it is a new user or username field is modified
-  if(this.isNew || this.isModified('username')){
-    User.find({username: username}).exec(function(err,users){
-      fn(!err && users.length ===0)
-    })
-  }else fn(true)
-},'Username already exists')
-
-UserSchema.path('username').validate(function(username){
-  if(this.doesNotRequireValidation()) return true
-  return username.length
-},'username cant be blank')
-
+  UserSchema.path('username').validate(function(username){
+    if(this.doesNotRequireValidation()) return true
+    return username.length
+  },'username cant be blank')
+*/
 UserSchema.path('hashed_password').validate(function (hashed_password) {
-  if (this.doesNotRequireValidation()) return true
+  if (this.doesNotRequireValidation() || this.status==='unactive') return true
   return hashed_password.length
 },'Password cant be blank')
 
 //Pre Save hook
 
 UserSchema.pre('save',function(next){
-  if(!this.isNew) return next();
+  if(!this.isNew) {
+    var now = new Date();
+    this.updated_at = now;
+  }
 
-  console.log('password of the object is '+this._password);
-  if(!this.doesNotRequireValidation()&&minLength(this._password))
+  if(!this.doesNotRequireValidation()&&!this.status==='unactive'&&minLength(this._password))
     {
       next(new Error('Password must contain at least 8 characters'));
     }
-  if(!this.doesNotRequireValidation()&&maxLength(this._password))
+  if(!this.doesNotRequireValidation()&&!this.status==='unactive'&&maxLength(this._password))
     {
       next(new Error('Password can not have more than 16 characters'));
     }
 
-  if(!validatePresenceOf(this.password)
+  if(!validatePresenceOf(this.password)&&!this.status==='unactive'
      && !this.doesNotRequireValidation())
    next(new Error('Invalid Password'))
   else
@@ -235,9 +272,17 @@ UserSchema.methods = {
 UserSchema.statics = {
 
   /**
+   * create user with unactive status
+   */
+  createUnactiveUsr: function(user, next) {
+    user.status = 'unactive'
+    console.log('saving unactive user');
+    user.save(next);
+  },
+
+  /**
    * decode token to authenticate user
    */
-
   decode: function(data) {
     return jwt.decode(data, token_secret)
   },

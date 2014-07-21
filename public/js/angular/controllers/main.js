@@ -1,7 +1,7 @@
-helloExpress.controller('MainCtrl',function($scope, EventService) {
+helloExpress.controller('MainCtrl',function($scope, MatchService) {
 
   $scope.getAll = function() {
-    EventService.getAll(function(data, status) {
+    MatchService.getAll(function(data, status) {
       if(status!=200)
         return  console.log('Something went wrong status code is'+ status);
       console.log(data);

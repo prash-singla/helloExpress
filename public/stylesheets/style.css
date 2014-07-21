@@ -7,3 +7,19 @@
 .btn-zero-radius {
   border-radius: 0px;
 }
+
+.hEBox {
+  box-shadow: 0px 2px 2px rgba(0,0,0,0.3);
+  border-radius: 2px;
+}
+
+.hEBox-match {
+    left: 34%;
+    width: 31%;
+}
+
+.cancel {
+  color:red;
+  text-align: center;
+  padding-top: 5px;
+}

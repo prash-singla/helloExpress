@@ -6,7 +6,14 @@ var mongoose = require('mongoose')
 
 var TokenSchema = new Schema({
   token:{type: String},
-  created_at:{type:Date, default: Date.now}
+  created_at: {
+    type: Date,
+    default: Date.now,
+    set: function(val) {
+      return undefinded;
+    }
+  },
+  updated_at:{type:Date, default: Date.now}
 })
 TokenSchema.statics = {
 
@@ -19,5 +26,17 @@ TokenSchema.statics = {
     return  ans
   }
 }
+
+/*
+ * pre-save hook
+ */
+
+TokenSchema.pre('save', function(next) {
+  if(!this.isNew) {
+    var now = new Date();
+    this.updated_at = now;
+  }
+  next();
+})
 
 mongoose.model('Token',TokenSchema);

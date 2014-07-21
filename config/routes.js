@@ -3,10 +3,10 @@ var async = require('async')
 var routes_path = '../routes/api'
 
 var users = require(routes_path+'/users')
-  , events = require(routes_path+'/events')
+  , matches = require(routes_path+'/matches')
   , signup = require(routes_path+'/signup')
   , routes = require('../routes/index')
-  , reset_pwd_router = require('../routes/reset_password')  
+  , reset_pwd_router = require('../routes/reset_password')
   , mongoose = require('mongoose')
   , User = mongoose.model('User')
   , Token = mongoose.model('Token')
@@ -20,7 +20,7 @@ module.exports = function(app, passport, config) {
    * if req contains token as req param
    */
 
-  app.all('/api/*', function(req, res, next) {
+  app.all('/api/users', function(req, res, next) {
     req.token = (req.body && req.body.access_token)||(req.headers.access_token? req.headers.access_token : null)
     if(req.token == null) {
       res.status(401);
@@ -29,7 +29,7 @@ module.exports = function(app, passport, config) {
     console.log("token verified");
     next();
   });
-  app.all('/api/*', auth.verifyToken);
+  app.all('/api/users', auth.verifyToken);
   app.all('/session/logout',function(req, res, next) {
     req.token = req.headers.access_token? req.headers.access_token : null;
     if(req.token == null) {
@@ -50,9 +50,9 @@ module.exports = function(app, passport, config) {
   app.use('/api/users', users);
 
   /**
-   * request for events
+   * request for matches
    */
-  app.use('/api/events', events);
+  app.use('/api/matches', matches);
   //hande request for changing password
   //when user click on the reset password link
   app.use('/reset', reset_pwd_router);
