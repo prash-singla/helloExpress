@@ -18,5 +18,6 @@ var helloExpress = angular.module('helloExpress',['ngRoute'])
       })
       .when('/home',{templateUrl: 'js/angular/templates/home.html'})
       .when('/signup',{templateUrl: 'js/angular/templates/signup.html'})
+      .when('/',{templateUrl: 'js/angular/templates/main.html'})
       .otherwise({rediredtTo: '/'});
   }]);
