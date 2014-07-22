@@ -276,12 +276,23 @@ UserSchema.methods = {
 
 UserSchema.statics = {
 
+  /*
+   * parse the string
+   * @params {String} decoded token
+   * @output {String} email
+   */
+  emailFromToken: function(decoded_token) {
+    var pattern = /\d+$/
+    var match = decoded_token.match(pattern);
+    var index = decoded_token.indexOf(match[0]);
+    return decoded_token.substr(0,index);
+  },
+
   /**
    * create user with unactive status
    */
   createUnactiveUsr: function(user, next) {
     user.status = 'unactive'
-    console.log('saving unactive user');
     user.save(next);
   },
 

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<!-- <div class="container-fluid matches-body">
   <div class="row-fluid col-md-12" ng-repeat='event in events'>
     <div class="col-md-2">
       img
@@ -13,4 +13,16 @@
       </div>
     </div>
   </div>
+</div>
+ -->
+
+<div class="container-fluid matches-body">
+  <ul class="list-matches" >
+    <li class='list-match row-fluid' ng-repeat='match in events'>
+      <a href="" class="pull-left match-img"><img src="images/Cricketer-1.gif" height="140" width="130"></a>
+      <h3>{{match.title}}</h3>
+      <div class="match-description">{{match.description}}</div>
+      <div class="match-info">{{match.where.city}}</div>
+    </li>    
+  </ul>
 </div>

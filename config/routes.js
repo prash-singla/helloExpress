@@ -81,8 +81,8 @@ module.exports = function(app, passport, config) {
     req.logout();
     if(req.token) {
       var decoded = User.decode(req.token, config.tkSecret)
-      if(decoded) {        
-        User.findOne({email: getEmail(decoded)}, function(err, user) {
+      if(decoded) {
+        User.findOne({email: User.emailFromToken(decoded)}, function(err, user) {
           if(err) return res.send({error: 'Invalid token, Sign in again'});
           user.authToken = null
           user.save(function(err, user) {
@@ -112,9 +112,3 @@ module.exports = function(app, passport, config) {
 
 }
 
-function getEmail(str) {
-  var pattern = /\d+$/
-  var match = str.match(pattern);
-  var index = str.indexOf(match[0]);
-  return str.substr(0,index);
-}

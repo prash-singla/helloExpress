@@ -15,9 +15,8 @@ exports.verifyToken = function(req, res, next) {
     }
     //Looking up in db & if that email exist its a real user
     if(decoded) {
-      console.log('passing on');
-      User.findOne({email: decoded}, function(err, user) {
-        if(err) res.json({error: 'Issue finding user.'})
+      User.findOne({email: User.emailFromToken(decoded)}, function(err, user) {
+        if(err) return res.json({error: 'Issue finding user.'})
         else {
           if(!(user.authToken) || Token.isExpired(user.authToken.created_at)) {
             res.status(401);

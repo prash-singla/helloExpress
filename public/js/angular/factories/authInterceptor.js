@@ -12,6 +12,7 @@ helloExpress.factory('authInterceptor',function($rootScope, $q, $window, $locati
       if(response.status===401) {
         //TODO handle unauthorized case
         $window.sessionStorage.token = null;
+        $location.url('/');
       }
       return response || $q.when(response);
     }

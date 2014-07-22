@@ -1,4 +1,4 @@
-helloExpress.service('SessionService',['$http', '$window', function($http, $window) {
+helloExpress.service('SessionService',['$http', '$window', '$location', function($http, $window, $location) {
   var urlBase = 'session'
   this.create = function(credentials) {
     console.log(credentials)
