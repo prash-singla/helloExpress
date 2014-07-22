@@ -13,12 +13,12 @@
       </div>
     </div>
   </div>
-</div>
+</
  -->
 
 <div class="container-fluid matches-body">
   <ul class="list-matches" >
-    <li class='list-match row-fluid' ng-repeat='match in events | orderBy:when'>
+    <li class='list-match row-fluid' ng-repeat='match in events | orderBy:when | inCity: city_selected'>
       <a href="" class="pull-left match-img"><img src="images/Cricketer-1.gif" height="140" width="130"></a>
       <h3>{{match.title}}</h3>
       <div class="match-description">{{match.description}}</div>

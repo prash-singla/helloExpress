@@ -1,5 +1,10 @@
 helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService, SessionService) {
 
+  $scope.city_selected = null; //city selected to filter matches by city
+
+  /*
+   * getting all matches from server
+   */
   $scope.getAll = function() {
     MatchService.getAll(function(data, status) {
       if (status != 200)
@@ -10,5 +15,5 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
   }
   $scope.getAll();
 
- 
+
 })
