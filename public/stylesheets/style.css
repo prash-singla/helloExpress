@@ -25,13 +25,21 @@
 }
 
 .matches-body {
-  padding: 2% 0 0 2%;
+  padding: 2% 0 0 4%;
 }
 .list-match {
   min-height: 140px;
   margin-bottom: 2px;
+  width: 65%;
 }
 .match-img {
-  margin-right: 3%
+  margin-right: 30px;
+}
+.match-info {
+  margin-top: 1%;
+}
+li h3 {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 li {list-style-type: none;}

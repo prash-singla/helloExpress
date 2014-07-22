@@ -18,11 +18,11 @@
 
 <div class="container-fluid matches-body">
   <ul class="list-matches" >
-    <li class='list-match row-fluid' ng-repeat='match in events'>
+    <li class='list-match row-fluid' ng-repeat='match in events | orderBy:when'>
       <a href="" class="pull-left match-img"><img src="images/Cricketer-1.gif" height="140" width="130"></a>
       <h3>{{match.title}}</h3>
       <div class="match-description">{{match.description}}</div>
-      <div class="match-info">{{match.where.city}}</div>
-    </li>    
+      <div class="match-info pull-right">{{match.where.city}}, {{match.when | date:'medium'}}</div>
+    </li>
   </ul>
 </div>
