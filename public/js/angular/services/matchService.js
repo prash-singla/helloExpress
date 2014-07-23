@@ -71,4 +71,19 @@ helloExpress.service('MatchService',['$http',function($http) {
     .error(cb);
   }
 
+  /*
+   * send req to
+   * plat match
+   */
+  this.reqPlay = function(match_id, user_id)
+  var param = {
+    'match_id': match_id,
+    'user_id': user_id
+  }
+  return $http({
+    method: 'post',
+    url: '',
+    data: param
+  });
+
 }])
