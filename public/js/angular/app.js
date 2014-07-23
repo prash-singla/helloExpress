@@ -25,5 +25,9 @@ var helloExpress = angular.module('helloExpress',['ngRoute'])
         templateUrl: 'js/angular/templates/main.html',
         controller: 'MainCtrl'
       })
+      .when('/matches/:match',{
+        templateUrl: 'js/angular/templates/matches/match.html',
+        controller: 'MatchCtrl'
+      })
       .otherwise({rediredtTo: '/'});
   }]);

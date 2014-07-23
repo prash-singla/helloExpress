@@ -32,15 +32,11 @@ helloExpress.service('MatchService',['$http',function($http) {
   /*api to get
    * an match
    */
-  this.get = function(id, cb) {
-    var param = {}
-    $http({
+  this.get = function(id) {
+     return $http({
       method: 'get',
       url: 'api/matches/'+id,
-      data: param
-    })
-    .success(cb)
-    .error(cb);
+    });
   }
 
   /*

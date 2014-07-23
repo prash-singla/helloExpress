@@ -8,7 +8,7 @@ router.route('/')
   .get(matches.getAll)
   .post(matches.create);
 
-router.route('/:event_id')
+router.route('/:match_id')
 
   .get(matches.get)
   .put(matches.update)

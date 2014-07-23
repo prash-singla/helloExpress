@@ -42,4 +42,10 @@ li h3 {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-li {list-style-type: none;}
+li {
+  list-style-type: none;
+}
+
+a {
+  
+}

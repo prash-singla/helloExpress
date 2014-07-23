@@ -17,7 +17,6 @@ exports.create = function(req, res) {
   var where = new Venue(req_match.where)
   where.save(function(err, where) {
     if(err) return res.json(err);
-    console.log('where successfully saved');
     var match = new Match({
       'title':req_match.title,
       'description': req_match.description
@@ -32,14 +31,7 @@ exports.create = function(req, res) {
       var user = new User({'email': req_match.email})
       User.createUnactiveUsr(user, function(err, user) {
         if(err) return res.json(err);
-        console.log('unactive user created successfully with email -'+user.email)
         match.posted_by = user._id
-        console.log('match where id '+match)
-        Venue.findOne({_id: match.where},function(err, venue) {
-          if(err) return console.log('got err in finding '+err);
-          console.log('venue found is -\n'+venue);
-
-        })
         match.save(function(err, match) {
           if(err) {
             user.remove();
@@ -58,9 +50,9 @@ exports.create = function(req, res) {
 // get match from db
 // and send as res
 exports.get = function(req, res) {
-  Match.findById(req.params.match_id).populate('where')
+  Match.findById(req.params.match_id).populate('where posted_by')
   .exec(function(err, match) {
-    if(err) res.json(err);
+    if(err) return res.json(err);
     res.json(match);
   })
 }

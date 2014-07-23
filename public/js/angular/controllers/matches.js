@@ -13,7 +13,7 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
       $scope.events = data;
     });
   }
-  $scope.getAll();
 
+  $scope.getAll();
 
 })
