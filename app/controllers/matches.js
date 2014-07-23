@@ -19,7 +19,8 @@ exports.create = function(req, res) {
     if(err) return res.json(err);
     var match = new Match({
       'title':req_match.title,
-      'description': req_match.description
+      'description': req_match.description,
+      'category': req_match.category
     });
     match.where = where._id
     var when = (new Date(req_match.when))
