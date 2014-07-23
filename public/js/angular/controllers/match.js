@@ -51,5 +51,4 @@ helloExpress.controller('MatchCtrl', function($scope, $routeParams,  MatchServic
     $scope.get($routeParams.match);
   }
 
-  $scope.init(); //initialising
 })

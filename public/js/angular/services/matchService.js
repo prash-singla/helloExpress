@@ -69,13 +69,13 @@ helloExpress.service('MatchService',['$http',function($http) {
     })
     .success(cb)
     .error(cb);
-  }
+  },
 
   /*
    * send req to
    * plat match
    */
-  this.reqPlay = function(match_id, user_id)
+  this.reqPlay = function(match_id, user_id) {
   var param = {
     'match_id': match_id,
     'user_id': user_id
@@ -85,5 +85,5 @@ helloExpress.service('MatchService',['$http',function($http) {
     url: '',
     data: param
   });
-
+  }
 }])
