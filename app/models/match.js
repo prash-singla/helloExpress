@@ -8,6 +8,11 @@ var MatchSchema = new Schema({
     trim: true,
     index: true
   },
+  category: {
+    type: String,
+    required: true,
+    trim: true
+  },
   description: {
     type: String,
     trim: true
