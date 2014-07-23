@@ -1,4 +1,4 @@
-helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService, SessionService) {
+helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService, SessionService, ResourceService) {
 
   $scope.city_selected = null; //city selected to filter matches by city
 
@@ -14,6 +14,22 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
     });
   }
 
+<<<<<<< HEAD
   $scope.getAll();
+=======
+  $scope.test = function() {
+    ResourceService.getMatchCategories()
+    .success(function(data, status) {
+      console.log(data);
+      $scope.categories = data;
+      alert("avnesh");
+    })
+    .error(function(err, status) {
+      console.log("error avnesh");
+      alert("error");
+    })
+  }
+  $scope.test();
+>>>>>>> 766e76acd6e6319d41fb5e5da4d8857b2e90812d
 
 })

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 helloExpress.controller('MatchCtrl', function($scope, $routeParams,  MatchService, EmailCheckService) {
+=======
+helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckService, ResourceService) {
+>>>>>>> 766e76acd6e6319d41fb5e5da4d8857b2e90812d
 
   /*
    * post new match
@@ -41,6 +45,7 @@ helloExpress.controller('MatchCtrl', function($scope, $routeParams,  MatchServic
     })
   }
 
+<<<<<<< HEAD
   /*
    * init funciton for any initialisation
    * required
@@ -51,4 +56,19 @@ helloExpress.controller('MatchCtrl', function($scope, $routeParams,  MatchServic
     $scope.get($routeParams.match);
   }
 
+=======
+  $scope.getMatchCategories = function() {
+    ResourceService.getMatchCategories()
+    .success(function(data, status) {
+      console.log(data);
+      $scope.categories = data;
+      alert("avnesh");
+    })
+    .error(function(err, status) {
+      console.log("error avnesh");
+      alert("error");
+    })
+  }
+  $scope.getMatchCategories();
+>>>>>>> 766e76acd6e6319d41fb5e5da4d8857b2e90812d
 })
