@@ -1,4 +1,4 @@
-helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckService) {
+helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckService, ResourceService) {
 
   $scope.create = function() {
     MatchService.create($scope.match, function(data, status) {
@@ -19,4 +19,18 @@ helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckSe
     .error(function(err, status) {
     })
   }
+
+  $scope.getMatchCategories = function() {
+    ResourceService.getMatchCategories()
+    .success(function(data, status) {
+      console.log(data);
+      $scope.categories = data;
+      alert("avnesh");
+    })
+    .error(function(err, status) {
+      console.log("error avnesh");
+      alert("error");
+    })
+  }
+  $scope.getMatchCategories();
 })
