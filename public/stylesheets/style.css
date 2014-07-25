@@ -29,16 +29,15 @@
 }
 .list-match {
   border-bottom: thin solid #ccc;
-  min-height: 140px;
+  min-height: 153px;
   margin-bottom: 2px;
   width: 95%;
-  padding: -40px;
 }
 .match-img {
   margin-right: 30px;
 }
 .match-info {
-  margin-top: 1%;
+  margin-top: 7%;
 }
 li h3 {
   padding-top: 10px;
