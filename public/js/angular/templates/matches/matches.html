@@ -16,13 +16,13 @@
 </
  -->
 
-<div class="container-fluid matches-body">
-  <ul class="list-matches" >
-    <li class='list-match row-fluid' ng-repeat='match in events | orderBy:when | inCity: city_selected'>
+<div class="container-fluid matches-body matches-list">
+  <ul class="list-matches wrapper" >
+    <li class='list-match row-fluid match-item' ng-repeat='match in events | orderBy:when | inCity: city_selected'>
       <a href="#/matches/match.id" class="pull-left match-img"><img src="images/Cricketer-1.gif" height="140" width="130"></a>
       <a ng-href="#/matches/{{match._id}}"><h3>{{match.title}}</h3></a>
       <div class="match-description">{{match.description}}</div>
-      <div class="match-info pull-right">{{match.where.city}}, {{match.when | date:'medium'}}</div>
+      <div class="match-info pull-right city-text">{{match.where.city}}, {{match.when | date:'medium'}}</div>
     </li>
   </ul>
 </div>
