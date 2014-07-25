@@ -28,9 +28,11 @@
   padding: 2% 0 0 4%;
 }
 .list-match {
+  border-bottom: thin solid #ccc;
   min-height: 140px;
   margin-bottom: 2px;
-  width: 65%;
+  width: 95%;
+  padding: -40px;
 }
 .match-img {
   margin-right: 30px;
@@ -48,4 +50,23 @@ li {
 
 a {
   
+}
+
+.matches-list{
+  font-family: sans-serif;
+  font-weight: 100;
+  background:#ccc;
+}
+
+.wrapper{
+  width:750px;
+  margin: 0 auto;
+  box-shadow:5px 5px 5px #555;
+  background: #fff;
+  border-radius: 15px;
+  padding: 10px;
+}
+.city-text{
+  font-style: italic;
+  font-size: 13px;
 }
