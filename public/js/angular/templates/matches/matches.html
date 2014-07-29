@@ -15,10 +15,16 @@
   </div>
 </
  -->
-
-<div class="container-fluid matches-body matches-list">
-  <ul class="list-matches wrapper" >
-    <li class='list-match row-fluid match-item' ng-repeat='match in events | orderBy:when | inCity: city_selected'>
+<div class="container-fluid">
+  <div class="row">
+    <h4>Filter Match Search</h4>
+    <h5>Select City</h5>
+    <select class="form-control" ng-model="city_selected" ng-options="city for city in matches_cities | orderBy : 'toString()' | filter: inCity" ></select>
+  </div>
+</div>
+<div class="container-fluid matches-body">
+  <ul class="list-matches" >
+    <li class='list-match row-fluid' ng-repeat='match in events | orderBy:when | inCity: city_selected'>
       <a href="#/matches/match.id" class="pull-left match-img"><img src="images/Cricketer-1.gif" height="140" width="130"></a>
       <a ng-href="#/matches/{{match._id}}"><h3>{{match.title}}</h3></a>
       <div class="match-description">{{match.description}}</div>

@@ -29,8 +29,9 @@ helloExpress.service('MatchService',['$http',function($http) {
     .error(cb);
   }
 
-  /*api to get
-   * an match
+  /*
+   * api to get
+   * a match
    */
   this.get = function(id) {
      return $http({
@@ -41,7 +42,7 @@ helloExpress.service('MatchService',['$http',function($http) {
 
   /*
    * api to update
-   * an match
+   * a match
    */
   this.update = function(match, cb) {
     var param = {
@@ -58,7 +59,7 @@ helloExpress.service('MatchService',['$http',function($http) {
 
   /*
    * api to delete
-   * an match
+   * a match
    */
   this.delete = function(id, match) {
     var param = {}
@@ -72,8 +73,8 @@ helloExpress.service('MatchService',['$http',function($http) {
   },
 
   /*
-   * send req to
-   * plat match
+   * send req for
+   * playing match
    */
   this.reqPlay = function(match_id, user_id) {
   var param = {
