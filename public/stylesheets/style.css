@@ -29,8 +29,9 @@
 }
 .list-match {
   border-bottom: thin solid #ccc;
-  min-height: 178px;
+ /* min-height: 178px;*/
   margin-bottom: 2px;
+  float: left;
   width: 95%;
 }
 .match-img {
