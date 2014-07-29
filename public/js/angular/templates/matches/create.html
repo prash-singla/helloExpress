@@ -27,7 +27,7 @@
         <input ng-model='match.where.country' type="country" class="form-control" id="country" placeholder="Country">
       </div>
       <div class="form-group">
-        <input ng-model="match.when" type="text" class="form-control" id="when" placeholder="Date and Time of Match">
+        <input ng-model="match.when" type="text" class="form-control" id="when"  placeholder="Date & Time" />
       </div>
       <div class="form-group">
         <input ng-model='match.email' type="email" class="form-control" id="email" placeholder="Email" ng-blur='checkEmail(match.email)'>
@@ -41,3 +41,15 @@
     </form>
   </div>
 </div>
+<script type="text/javascript">
+  var d = new Date();
+  var month = d.getMonth()+1;
+  var day = d.getDate();
+  var year = d.getFullYear();
+  $('#when').datetimepicker({
+    formatTime:'H:i',
+    formatDate:'d.m.Y',
+    defaultDate:day+'.'+month+'.'+year, // it's my birthday
+    defaultTime:'10:00'
+  });
+</script>
