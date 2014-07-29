@@ -1,7 +1,7 @@
 helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService, SessionService, ResourceService) {
 
   $scope.city_selected = null; //city selected to filter matches by city
-
+  $scope.category_selected = [];
   /*
    * getting all matches from server
    */
@@ -30,4 +30,16 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
    }
 
    $scope.getMatchesCities();
+
+   $scope.getMatchCategories = function() {
+    ResourceService.getMatchCategories()
+    .success(function(data, status) {
+      $scope.categories = data.categories;
+    })
+    .error(function(err, status) {
+      console.log(err);
+    })
+  }
+
+  $scope.getMatchCategories();
 })

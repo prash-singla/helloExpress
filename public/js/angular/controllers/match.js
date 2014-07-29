@@ -60,5 +60,5 @@ helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckSe
       console.log(err);
     })
   }
-  $scope.getMatchCategories();
+  // $scope.getMatchCategories();
 })

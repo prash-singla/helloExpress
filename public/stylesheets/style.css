@@ -25,7 +25,7 @@
 }
 
 .matches-body {
-  padding: 2% 0 0 4%;
+  padding: 2% 0 0 0;
 }
 .list-match {
   border-bottom: thin solid #ccc;
@@ -37,7 +37,9 @@
   margin-right: 30px;
 }
 .match-info {
-  margin-top: 7%;
+  /*margin-top: 7%;*/
+  padding-bottom: 2px;
+  float: right;
 }
 li h3 {
   padding-top: 10px;
@@ -68,4 +70,16 @@ a {
 .city-text{
   font-style: italic;
   font-size: 13px;
+}
+.hE-footer {
+  background-color: #FFAC30;
+  height: 50px;
+  margin-bottom: 0px;
+
+}
+.list-matches {
+  border-left: 1px solid #eee;
+}
+.match-description {
+  
 }
