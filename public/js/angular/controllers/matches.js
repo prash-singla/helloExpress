@@ -1,7 +1,7 @@
 helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService, SessionService, ResourceService) {
 
   $scope.city_selected = null; //city selected to filter matches by city
-  $scope.category_selected = [];
+  $scope.categories_selected = [];
   /*
    * getting all matches from server
    */
@@ -9,7 +9,7 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
     MatchService.getAll(function(data, status) {
       if (status != 200)
         return console.log('Something went wrong status code is' + status);
-      $scope.events = data;
+      $scope.matches = data;
     });
   }
 
@@ -42,4 +42,13 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
   }
 
   $scope.getMatchCategories();
+
+  $scope.toggleSelection = function(category) {
+    var idx = $scope.categories_selected.indexOf(category);
+    if(idx == -1)
+      $scope.categories_selected.push(category);
+    else
+      $scope.categories_selected.splice(idx, 1);
+  }
+
 })

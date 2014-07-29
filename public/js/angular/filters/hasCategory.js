@@ -6,15 +6,20 @@
 helloExpress.filter('hasCategory', function() {
 
   return function(items, categories) {
-    if(!category) return items;
+    if(categories.length<0) return items;
     var arrayToReturn = [];
-    items.forEach(function(match) {
-      categories.forEach(function(category) {
-        if(match.category == category)
-          arrayToReturn.push(match);
-      })
-    })
+    if(items) {
+      items.forEach(function(match) {
+        categories.forEach(function(category) {
+          console.log('match category '+match.category+ 'selected category  '+ category)
+          if(match.category == category)
+            arrayToReturn.push(match);
+        })
+      });
+    }
+    if(arrayToReturn.length > 0)
+      return arrayToReturn;
 
-    return arrayToReturn;
+      return items;
   }
 });
