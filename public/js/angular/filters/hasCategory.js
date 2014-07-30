@@ -11,7 +11,6 @@ helloExpress.filter('hasCategory', function() {
     if(items) {
       items.forEach(function(match) {
         categories.forEach(function(category) {
-          console.log('match category '+match.category+ 'selected category  '+ category)
           if(match.category == category)
             arrayToReturn.push(match);
         })

@@ -1,6 +1,6 @@
 'use strict';
 
-var helloExpress = angular.module('helloExpress',['ngRoute'])
+var helloExpress = angular.module('helloExpress',['ngRoute','infinite-scroll'])
   .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
 
     $routeProvider

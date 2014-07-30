@@ -4,6 +4,7 @@ var routes_path = '../routes/api'
 
 var users = require(routes_path+'/users')
   , matches = require(routes_path+'/matches')
+  , match = require(routes_path+'/match')
   , signup = require(routes_path+'/signup')
   , emailCheck = require('../routes/emailcheck')
   , routes = require('../routes/index')
@@ -58,6 +59,11 @@ module.exports = function(app, passport, config) {
    * request for matches
    */
   app.use('/api/matches', matches);
+
+  /**
+   * request for one particular match
+   */
+  app.use('/api/match', match);
   //hande request for changing password
   //when user click on the reset password link
   app.use('/reset', reset_pwd_router);

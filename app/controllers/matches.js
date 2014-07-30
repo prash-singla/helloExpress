@@ -90,7 +90,11 @@ exports.update = function(req, res) {
 
 //get All
 exports.getAll = function(req, res) {
+  var offset = req.params.offset
+  console.log('offset is '+offset);
   Match.find()
+  .skip(offset)
+  .limit(10)
   .populate('where')
   .exec(function(err, matchs) {
     if(err) res.json(err);

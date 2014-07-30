@@ -2,11 +2,11 @@ helloExpress.service('MatchService',['$http',function($http) {
   /*api to
    * get all matches
    */
-  this.getAll = function(cb) {
+  this.getAll = function(offset, cb) {
     var param = {}
     $http({
       method: 'get',
-      url: 'api/matches',
+      url: 'api/matches/'+offset,
       data:param
     })
     .success(cb)

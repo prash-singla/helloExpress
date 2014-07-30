@@ -5,17 +5,14 @@ var matches = require('../../app/controllers/matches')
 
 router.route('/')
 
-  .get(matches.getAll)
   .post(matches.create);
-
-router.route('/:match_id')
-
-  .get(matches.get)
-  .put(matches.update)
-  .delete(matches.delete);
 
 router.route('inCity/:city')
   //req for get matches in city
   .get(matches.getInCity);
+
+router.route('/:offset')
+  .get(matches.getAll)
+
 
 module.exports = router;

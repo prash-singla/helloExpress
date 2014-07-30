@@ -1,4 +1,4 @@
-helloExpress = angular.module('helloExpress',['ngCookies','ngResource','ngRoute'])
+helloExpress = angular.module('helloExpress',['ngCookies','ngResource','ngRoute','infinite-scroll'])
   .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.html5Mode(true);
 
