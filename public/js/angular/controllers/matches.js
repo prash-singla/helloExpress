@@ -47,7 +47,7 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
   }
 
   $scope.checkEndData = function(data) {
-    if(data.length <10)
+    if(data.length < 5)
         $scope.scrollLoadDisable = true;
   }
 

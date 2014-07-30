@@ -94,7 +94,7 @@ exports.getAll = function(req, res) {
   console.log('offset is '+offset);
   Match.find()
   .skip(offset)
-  .limit(10)
+  .limit(5)
   .populate('where')
   .exec(function(err, matchs) {
     if(err) res.json(err);

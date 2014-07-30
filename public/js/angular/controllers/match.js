@@ -4,6 +4,7 @@ helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckSe
    * post new match
    */
   $scope.create = function() {
+    console.log($scope.match.when)
     MatchService.create($scope.match, function(data, status) {
       //TODO make it robust
       if(status!=201)
@@ -42,7 +43,7 @@ helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckSe
   }
 
   /*
-   * init funciton for any initialisation
+   * init function for any initialisation
    * required
    */
   $scope.init = function() {

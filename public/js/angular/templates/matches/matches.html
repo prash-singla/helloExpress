@@ -34,7 +34,7 @@
   </div>
 </div>
     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-      <ul class="list-matches" infinite-scroll='loadMatches()' infinite-scroll-disabled="scrollLoadDisable" infinite-scroll-distance='0' >
+      <ul class="list-matches" infinite-scroll='loadMatches()' infinite-scroll-disabled="scrollLoadDisable" infinite-scroll-distance='2' >
         <li class='list-match row-fluid' ng-repeat='match in matches | inCity: city_selected | hasCategory: categories_selected'>
           <a href="#/matches/match.id" class="pull-left match-img"><img src="images/Cricketer-1.gif" height="140" width="130"></a>
           <a ng-href="#/matches/{{match._id}}"><h3>{{match.title}}</h3></a>
