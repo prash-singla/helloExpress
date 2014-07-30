@@ -18,20 +18,7 @@
 
  <div class="container-fluid matches-body">
   <div class="container-fluid">
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" class="matches-filter-sidebar">
-      <div class="row-fluid">
-        <h4>Filter Match Search</h4>
-        <h5>Select City</h5>
-        <select class="form-control" ng-model="city_selected" ng-options="city for city in matches_cities | orderBy : 'toString()' | filter: inCity"></select>
-      </div>
-      <div class="row-fluid">
-        <h5>Select Categories</h5>
-          <li class="" ng-repeat="category in categories | orderBy : 'toString()'">
-            <input type='checkbox' value={{category}} ng-checked="category_selected.indexOf(category) > -1" ng-click="toggleSelection(category)" >
-            <small>{{category}}</small>
-          </li>
-      </div>
-    </div>
+    <ng-include src="'js/angular/templates/matches/left_sidebar.html'" scope="" onload=""></ng-include>
     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
       <ul class="list-matches" >
         <li class='list-match row-fluid' ng-repeat='match in matches | inCity: city_selected | hasCategory: categories_selected'>
