@@ -15,10 +15,20 @@
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1 col-md-13">
     <div class="col-md-8">
     <form class="navbar-form" role="search">
-      <div class="form-group col-md-8" style="padding-right: 0px">
+      <div class="form-group col-md-6" style="padding-right: 0px">
         <input type="text" class="form-control hESearchBox" placeholder="Search" >
       </div>
       <button type="submit" class="btn btn-default btn-zero-radius"><span class="glyphicon glyphicon-search"></span></button>
+    </form>
+  </div>
+  <div>
+    <form class="navbar-form" role="search">
+    <div class="form-group" style="width: 11%;">
+      <input ng-model="date.from" type="text" class="form-control" id="date_timepicker_start"  placeholder="From" maxlength="11" size="11" />
+    </div>
+    <div class="form-group" style="width: 11%;">
+      <input ng-model="date.to" type="text" class="form-control" id="date_timepicker_end"  placeholder="To" maxlength="11" size="11" />
+    </div>
     </form>
   </div>
     <ul class="nav navbar-nav navbar-right">
@@ -37,3 +47,26 @@
   </div><!-- /.navbar-collapse -->
 </div><!-- /.container-fluid -->
 </nav>
+<script type="text/javascript">
+  jQuery(function(){
+   jQuery('#date_timepicker_start').datetimepicker({
+    format:'Y/m/d',
+    onShow:function( ct ){
+     this.setOptions({
+      maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+     })
+    },
+    timepicker:false
+   });
+
+   jQuery('#date_timepicker_end').datetimepicker({
+    format:'Y/m/d',
+    onShow:function( ct ){
+     this.setOptions({
+      minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+     })
+    },
+    timepicker:false
+   });
+  });
+</script>
