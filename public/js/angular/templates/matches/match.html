@@ -1,13 +1,19 @@
 <div class="container-fluid" ng-init='init()'>
-  <div class="row-fluid">
-    <h3>{{match.title}}</h3>
-  </div>
-  <div class="row-fluid">
-    {{match.description}}
-  </div>
-  <div class="row-fluid">
-    <small class="pull-left">Organiser: <a href="">{{match.posted_by.name || match.posted_by.email}}</a></small>
-    <small class="pull-right">{{match.where.city}}, {{match.when | date:'medium'}}</small>
-  </div>
+  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 
+  </div>
+  <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+    <div class="row-fluid">
+      <h3>{{match.title}}</h3>
+      <span class="glyphicon  glyphicon glyphicon-remove pull-right"></span>
+      <span class="glyphicon  glyphicon-pencil pull-right"></span>
+    </div>
+    <div class="row-fluid">
+      {{match.description}}
+    </div>
+    <div class="row-fluid">
+      <small class="pull-left">Organiser: <a href="">{{match.posted_by.name || match.posted_by.email}}</a></small>
+      <small class="pull-right">{{match.where.city}}, {{match.when | date:'medium'}}</small>
+    </div>
+  </div>
 </div>

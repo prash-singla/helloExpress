@@ -6,7 +6,7 @@
 helloExpress.filter('withinDateRange', function() {
 
   return function(items, dates) {
-    console.log('dates are -- ' +dates);
+    console.log('dates are -- ' +dates+'and dates length is  '+dates.length);
     var datesLength = dates.length
     switch(datesLength) {
       case 0:
@@ -27,7 +27,6 @@ function onlywithFrom(items, from) {
   var ary = [];
   var fromDate = new Date(from)
   items.forEach(function(match) {
-    console.log(match.when)
     var matchDate = new Date(match.when)
     if(matchDate >= fromDate)
       ary.push(match)

@@ -1,17 +1,6 @@
-helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckService, ResourceService) {
+helloExpress.controller('MatchCtrl', function($scope, $routeParams, MatchService, EmailCheckService, ResourceService) {
 
-  /*
-   * post new match
-   */
-  $scope.create = function() {
-    console.log($scope.match.when)
-    MatchService.create($scope.match, function(data, status) {
-      //TODO make it robust
-      if(status!=201)
-        console.error('Could not create match');
-      console.log(data);
-    })
-  }
+ 
 
   /*
    * get a particular match details
@@ -27,22 +16,6 @@ helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckSe
   }
 
   /*
-   * check whether email
-   * already exists or not.
-   */
-  $scope.checkEmail = function(email) {
-    EmailCheckService.exists(email)
-    .success(function(data, status) {
-      if(data.message == 'not found') {
-        console.log('email not found')
-      }
-      else console.log('email already exists');
-    })
-    .error(function(err, status) {
-    })
-  }
-
-  /*
    * init function for any initialisation
    * required
    */
@@ -52,14 +25,4 @@ helloExpress.controller('MatchCtrl', function($scope, MatchService, EmailCheckSe
     $scope.get($routeParams.match);
   }
 
-  $scope.getMatchCategories = function() {
-    ResourceService.getMatchCategories()
-    .success(function(data, status) {
-      $scope.categories = data.categories;
-    })
-    .error(function(err, status) {
-      console.log(err);
-    })
-  }
-  // $scope.getMatchCategories();
 })

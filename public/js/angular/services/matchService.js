@@ -13,6 +13,17 @@ helloExpress.service('MatchService',['$http',function($http) {
     .error(cb);
   }
 
+  this.getFromToday = function(offset, cb) {
+    var param = {}
+    $http({
+      method: 'get',
+      url: 'api/matches/fromToday/'+offset,
+      data:param
+    })
+    .success(cb)
+    .error(cb);
+  }
+
   /*api to create
    * an match
    */
@@ -36,7 +47,7 @@ helloExpress.service('MatchService',['$http',function($http) {
   this.get = function(id) {
      return $http({
       method: 'get',
-      url: 'api/matches/'+id,
+      url: 'api/match/'+id,
     });
   }
 

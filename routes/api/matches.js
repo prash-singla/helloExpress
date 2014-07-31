@@ -4,7 +4,6 @@ var matches = require('../../app/controllers/matches')
   , router = express.Router();
 
 router.route('/')
-
   .post(matches.create);
 
 router.route('inCity/:city')
@@ -13,6 +12,9 @@ router.route('inCity/:city')
 
 router.route('/:offset')
   .get(matches.getAll)
+
+router.route('/fromToday/:offset')
+  .get(matches.getFromToday)
 
 
 module.exports = router;

@@ -13,7 +13,7 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
   $scope.loadMatches = function() {
     console.log('loading matches')
     if($scope.checkSameOffset()) return ;
-    MatchService.getAll($scope.offset, function(data, status) {
+    MatchService.getFromToday($scope.offset, function(data, status) {
       if (status != 200)
         return console.log('Something went wrong status code is' + status);
       $scope.incrementOffset(data.length);
@@ -34,13 +34,10 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
 
   $scope.appendMatches = function(matches) {
     // $scope.matches.length == 0 ? $scope.matches = matches : $scope.matches.concat(matches);
-    console.log('before appending-' + $scope.matches.length)
     if ($scope.matches.length == 0)
       $scope.matches = matches;
     else
       $scope.matches = $scope.matches.concat(matches);
-    console.log('after appending-' + $scope.matches.length)
-
   }
   
   $scope.incrementOffset = function(toAdd) {

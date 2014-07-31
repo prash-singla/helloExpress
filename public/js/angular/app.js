@@ -8,9 +8,9 @@ var helloExpress = angular.module('helloExpress',['ngRoute','infinite-scroll'])
         templateUrl: 'js/angular/templates/matches/matches.html',
         controller: 'MatchesCtrl'
       })
-      .when('/matches/create',{
+      .when('/matches/new',{
        templateUrl: 'js/angular/templates/matches/create.html',
-       controller: 'MatchCtrl'
+       controller: 'MatchNewCtrl'
       })
       .when('/signin',{
         templateUrl: 'js/angular/templates/signin.html',

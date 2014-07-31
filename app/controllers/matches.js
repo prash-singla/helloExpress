@@ -91,6 +91,20 @@ exports.update = function(req, res) {
 //get All
 exports.getAll = function(req, res) {
   var offset = req.params.offset
+  Match.find()
+  .sort({when: 'desc'})
+  .skip(offset)
+  .limit(5)
+  .populate('where')
+  .exec(function(err, matchs) {
+    if(err) res.json(err);
+    res.json(matchs);
+  })
+}
+
+//get Matches From current date
+exports.getFromToday = function(req, res) {
+  var offset = req.params.offset
   var todayDate = new Date()
   console.log('offset is '+offset);
   Match.find({"when": {"$gte": todayDate}})
