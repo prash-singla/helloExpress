@@ -16,7 +16,7 @@ helloExpress.filter('hasCategory', function() {
         })
       });
     }
-    if(arrayToReturn.length > 0)
+    if(arrayToReturn.length >= 0 && categories.length > 0)
       return arrayToReturn;
 
       return items;

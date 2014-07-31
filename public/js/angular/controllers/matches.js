@@ -6,6 +6,7 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
   $scope.offset = 0; //offset to fetch matches from db sent as req param.
   $scope.scrollLoadDisable = false; 
   $scope.last_offset = null;
+  $scope.dates= [];
   /*
    * getting all matches from server
    */

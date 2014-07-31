@@ -3,9 +3,10 @@
  * results which lies within the date range
  * use selected.
  */
-helloExpress.filiter('withinDateRange', function() {
+helloExpress.filter('withinDateRange', function() {
 
   return function(items, dates) {
+    console.log('dates are -- ' +dates);
     var datesLength = dates.length
     switch(datesLength) {
       case 0:
@@ -22,22 +23,29 @@ helloExpress.filiter('withinDateRange', function() {
 });
 
 function onlywithFrom(items, from) {
+  console.log('filtering with from')
   var ary = [];
   var fromDate = new Date(from)
   items.forEach(function(match) {
-    if(match.when >= fromDate)
+    console.log(match.when)
+    var matchDate = new Date(match.when)
+    if(matchDate >= fromDate)
       ary.push(match)
   })
+  console.log('returning ary length is ' +ary.length)
   return ary;
 }
 
 function fromTo(items, dates) {
+  console.log('filtering with from and to')
   var ary= [];
   var from  = new Date(dates[0])
   var to = new Date(dates[1])
   items.forEach(function(match) {
-    if(match.when >= from && match.when <= to)
+    var matchDate = new Date(match.when)
+    if(matchDate >= from && matchDate <= to)
       ary.push(match);
   })
+  console.log('returning ary length is ' +ary.length)
   return ary;
 }
