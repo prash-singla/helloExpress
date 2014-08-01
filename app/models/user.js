@@ -27,6 +27,12 @@ var UserSchema = new Schema({
     unique:true,
     match: emailRegexp
   },
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
+  },
   gender: {
     type: String,
     uppercase: true,

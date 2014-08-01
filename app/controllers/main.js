@@ -2,14 +2,26 @@ var mongoose = require('mongoose')
   , User = mongoose.model('User')
 
 exports.emailExists = function(req, res) {
+  var username = req.params.username || null
+  User.findOne({username: username}, function(err, user) {
+    if(err) return res.json(err);
+    if(!user) {
+      return res.json({message:'not found', result: 'true'})
+    }
+    res.json({message: 'found', result: 'false'})
+  })
+}
+
+exports.usernameExists = function(req, res) {
   var email = req.params.email || null
   User.findOne({email: email}, function(err, user) {
     if(err) return res.json(err);
     if(!user) {
-      return res.json({message:'not found'})
+      return res.json({message:'not found', result: 'true'})
     }
-    res.json({message: 'found'})
+    res.json({message: 'found', result: 'false'})
   })
+
 }
 exports.verify_reset_url = function(req, res) {
   var reset_token = req.params.reset_token

@@ -32,6 +32,17 @@ exports.verifyToken = function(req, res, next) {
 
 }
 
+/*
+ * check the req method for /api/matches
+ * if it isn't GET then user should be authenticated
+ */
+exports.chkReqMethodToken = function(req, res, next) {
+  if(req.method === "GET" )
+    next(req, res);
+  else
+    verifyToken(req, res, next);
+}
+
 //var auth = function(req, res, next) {
 //  if(!req.isAuthenticated()) res.send(401);
 //  else

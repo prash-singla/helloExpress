@@ -7,6 +7,7 @@ var users = require(routes_path+'/users')
   , match = require(routes_path+'/match')
   , signup = require(routes_path+'/signup')
   , emailCheck = require('../routes/emailcheck')
+  , usernameCheck = require('../routes/usernamecheck')
   , routes = require('../routes/index')
   , reset_pwd_router = require('../routes/reset_password')
   , mongoose = require('mongoose')
@@ -22,16 +23,10 @@ module.exports = function(app, passport, config) {
    * if req contains token as req param
    */
 
-  app.all('/api/users', function(req, res, next) {
-    req.token = (req.body && req.body.access_token)||(req.headers.access_token? req.headers.access_token : null)
-    if(req.token == null) {
-      res.status(401);
-      res.send({message:'Please Sign in.'})
-    }
-    console.log("token verified");
-    next();
-  });
+  app.all('/api/users', setToken);
+  app.all('api/matches', setToken);
   app.all('/api/users', auth.verifyToken);
+  app.all('/api/matches', auth.chkReqMethodToken);
   app.all('/session/logout',function(req, res, next) {
     req.token = req.headers.access_token? req.headers.access_token : null;
     if(req.token == null) {
@@ -49,6 +44,10 @@ module.exports = function(app, passport, config) {
 
   //req to check whether email exists or not
   app.use('/emailcheck', emailCheck);
+
+  //req to check whether username exists or not
+  app.use('/usernamecheck', usernameCheck);
+
   /**all requests for crud operation will come through this url
    *using 'auth' function as middleware for authentication
    *and then using 'users' which is express.router object
@@ -64,6 +63,7 @@ module.exports = function(app, passport, config) {
    * request for one particular match
    */
   app.use('/api/match', match);
+
   //hande request for changing password
   //when user click on the reset password link
   app.use('/reset', reset_pwd_router);
@@ -118,3 +118,12 @@ module.exports = function(app, passport, config) {
 
 }
 
+function setToken (req, res, next) {
+  req.token = (req.body && req.body.access_token)||(req.headers.access_token? req.headers.access_token : null)
+  if(req.token == null) {
+    res.status(401);
+    res.send({message:'Please Sign in.'})
+  }
+  console.log("token verified");
+  next();
+}

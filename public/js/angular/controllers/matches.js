@@ -4,7 +4,7 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
   $scope.categories_selected = [];
   $scope.matches = [];
   $scope.offset = 0; //offset to fetch matches from db sent as req param.
-  $scope.scrollLoadDisable = false; 
+  $scope.scrollLoadDisable = false;
   $scope.last_offset = null;
   $scope.dates= [];
   /*
@@ -39,7 +39,7 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
     else
       $scope.matches = $scope.matches.concat(matches);
   }
-  
+
   $scope.incrementOffset = function(toAdd) {
     $scope.offset += toAdd;
   }
@@ -77,7 +77,10 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
   }
 
   $scope.getMatchCategories();
-
+  /*
+   * toggle the category selected
+   * by user for matches
+   */
   $scope.toggleSelection = function(category) {
     var idx = $scope.categories_selected.indexOf(category);
     if(idx == -1)
@@ -86,6 +89,10 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
       $scope.categories_selected.splice(idx, 1);
   }
 
+  /*
+   * load the matches on
+   * scroll
+   */
   $scope.onScrollload = function() {
     MatchService.getAll($scope.offset, function(data, status) {
       if (status != 200)
@@ -93,5 +100,19 @@ helloExpress.controller('MatchesCtrl', function($scope, $location, MatchService,
       $scope.matches.concat(data);
       $scope.offset += data.length;
     });
+  }
+
+  /*
+   * make req for user to  play match
+   */
+  $scope.makePlayReq = function(match_id) {
+    if(!$window.sessionStorage.token)
+    MatchService.reqPlay(match_id, user_id)
+    .success(function(data, status) {
+      console.log('data & status' + data + status)
+    })
+    .error(function(data, status) {
+      console.log('Something went wrong er is '+ data, +' & status'+status  );
+    })
   }
 })

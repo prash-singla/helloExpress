@@ -88,14 +88,14 @@ helloExpress.service('MatchService',['$http',function($http) {
    * playing match
    */
   this.reqPlay = function(match_id, user_id) {
-  var param = {
-    'match_id': match_id,
-    'user_id': user_id
-  }
-  return $http({
-    method: 'post',
-    url: '',
-    data: param
-  });
+    var param = {
+      'match_id': match_id,
+      'user_id': user_id
+    }
+    return $http({
+      method: 'post',
+      url: '',
+      data: param
+    });
   }
 }])
